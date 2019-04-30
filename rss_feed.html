@@ -1,0 +1,43 @@
+<script>
+// Build an application to read RSS feed of CNET news(https://www.cnet.com/rss/news/) and generate text files by each items(filename should be guid of each items)
+
+  // Use XMLHttpRequest (XHR) objects to retrieve JSON from a URL 
+  var xmlhttp = new XMLHttpRequest();
+  
+  xmlhttp.onreadystatechange = function() {
+
+    // when the response is ready
+    if (this.readyState == 4 && this.status == 200) {
+      // Parse json to use as array
+      var jsonArr = JSON.parse(this.responseText);
+
+        for(let i = 0; i < jsonArr.items.length; i++){
+          
+            // Text content
+            let text = `
+            guid: ${jsonArr.items[i].guid} \r\n
+            title: ${jsonArr.items[i].title} \r\n
+            description: ${jsonArr.items[i].description} \r\n
+            pubDate: ${jsonArr.items[i].pubDate} \r\n
+            link: ${jsonArr.items[i].link} \r\n
+            author: ${jsonArr.items[i].author} \r\n
+            content: ${jsonArr.items[i].content} \r\n
+            thumbnail: ${jsonArr.items[i].thumbnail} \r\n
+            `;
+
+            // Generate text files
+            let a = document.createElement('a');
+            a.href = "data:application/octet-stream," + encodeURIComponent(text);
+            // guid will be text file name and download them
+            a.download = jsonArr.items[i].guid + '.txt';
+            a.click();
+          }
+        }
+      };
+
+  // API for converting rss to JSON. Found at https://rss2json.com/google-feed-api-alternative
+  var url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.cnet.com%2Frss%2Fnews%2F&api_key=h5qxtbbcul1jsqf6oaffhttmoghkrqjoultlimlk&order_by=pubDate&order_dir=desc&count=100";
+  
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+</script>

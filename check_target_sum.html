@@ -1,0 +1,44 @@
+<!-- 
+
+· Write a Javascript function to check if target sum of any two numbers exists on array.
+
+Example :
+
+[10,11,12,13], 25 // true : 12 + 13 = 25
+
+[10,20,30,40,50], 70 // true : 30 + 40 = 70
+
+[21,3,4,22], 30 // false : nothing
+-->
+
+<script>
+
+let arr = [10, 11, 12, 13];
+let targetSum = 25;
+
+// let arr = [10,20,30,40,50];
+// let targetSum = 70;
+
+// let arr = [21,3,4,22];
+// let targetSum = 30;
+
+// set a flag variable to false
+let isFound = false;
+
+// Compare with the first number in the array and move onto next one
+for(let i = 0; i < arr.length; i++){
+
+  // Compare with the rest of numbers to the right in the array
+  for(let j = 1 + i; j < arr.length; j++){
+
+    // Check if target sum is found, flag it true
+    if(arr[i] + arr[j] == targetSum){
+      isFound = true;
+    }
+  }
+}
+
+// display the result
+console.log(isFound);
+
+</script>
